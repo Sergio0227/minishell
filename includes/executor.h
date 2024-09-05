@@ -1,42 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   executor.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sandre-a <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 16:29:13 by sandre-a          #+#    #+#             */
-/*   Updated: 2024/09/05 16:22:34 by sandre-a         ###   ########.fr       */
+/*   Created: 2024/09/05 14:51:49 by sandre-a          #+#    #+#             */
+/*   Updated: 2024/09/05 14:52:02 by sandre-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
 
-# include "color.h"
-# include "lexer.h"
 # include "libft.h"
-# include "executor.h"
 # include <dirent.h>
 # include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stdbool.h>
-# include <stdlib.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <termios.h>
+# include <stdio.h>
 
-# define PROMPT "\033[94mminishell\033[1;31m>\033[0m"
-
-typedef struct s_shell
+typedef struct s_exec
 {
-	char	*input;
-	t_lexer	*lexer;
-	t_exec	exec;
-}			t_shell;
+	char	**argv;
+	char	**env_path;
+	char	*builtin_path;
+	char 	*pathname;
+}			t_exec;
 
-void		prompt_loop(t_shell *m);
+int			excecute(t_exec *exec, char *path);
+int			command_exists(t_exec *exec);
 
 #endif

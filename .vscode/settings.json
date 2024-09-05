@@ -5,6 +5,17 @@
 		"cstdio": "c",
 		"minishell.h": "c",
 		"libft.h": "c",
-		"stdbool.h": "c"
+		"stdbool.h": "c",
+		"stdio.h": "c",
+		"readline.h": "c",
+		"dirent.h": "c",
+		"limits.h": "c",
+		"history.h": "c",
+		"signal.h": "c",
+		"lexer.h": "c",
+		"color.h": "c",
+		"termios.h": "c",
+		"types.h": "c",
+		"executor.h": "c"
 	}
 }

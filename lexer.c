@@ -6,11 +6,11 @@
 /*   By: sandre-a <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 18:20:24 by sandre-a          #+#    #+#             */
-/*   Updated: 2024/09/05 13:45:34 by sandre-a         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:17:25 by sandre-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "includes/lexer.h"
 
 t_tokens	analyse_token(char *str)
 {
@@ -48,7 +48,7 @@ t_lexer	*get_last_token(t_lexer *lexer)
 	return (lexer);
 }
 
-void	*add_to_token_list(t_lexer **lexer, char *str)
+void	add_to_token_list(t_lexer **lexer, char *str)
 {
 	t_lexer	*new_token;
 	t_lexer	*temp;

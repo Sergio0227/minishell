@@ -6,7 +6,7 @@
 /*   By: sandre-a <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:48:59 by sandre-a          #+#    #+#             */
-/*   Updated: 2024/09/05 14:12:42 by sandre-a         ###   ########.fr       */
+/*   Updated: 2024/09/05 19:48:11 by sandre-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	init_var(t_shell *m)
 {
 	m->input = NULL;
 	m->lexer = NULL;
-	m->path = getenv("PATH");
+	m->exec.env_path = ft_split(getenv("PATH"), ':');
+	m->exec.pathname = NULL;
 }
 
 void	free_tokens(t_lexer *lexer)
@@ -32,22 +33,40 @@ void	free_tokens(t_lexer *lexer)
 	}
 }
 
+void	free_env_path(t_exec *exec)
+{
+	int	x;
+
+	x = 0;
+	while (exec->env_path[x])
+	{
+		free(exec->env_path[x]);
+		x++;
+	}
+	free(exec->env_path);
+}
+
 void	prompt_loop(t_shell *m)
 {
 	int	count;
 	int	status;
 
 	count = 0;
-	while (count < 1)
+	while (count < 2)
 	{
 		m->input = readline(PROMPT);
 		add_history(m->input);
 		m->lexer = init_lexer(m->input);
-		check_dir(m);
+		command_exists(&m->exec);
 		free(m->input);
 		free_tokens(m->lexer);
+		if (m->exec.pathname)       ////TEST
+			free(m->exec.pathname); ////TEST
+		free(m->exec.argv[0]);      ////TEST
+		free(m->exec.argv);         ////TEST
 		count++;
 	}
+	free_env_path(&m->exec); ////TEST
 	rl_clear_history();
 }
 
@@ -57,6 +76,5 @@ int	main(void)
 
 	init_var(&m);
 	prompt_loop(&m);
-	// excecute();
 	return (0);
 }

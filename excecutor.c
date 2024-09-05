@@ -6,51 +6,98 @@
 /*   By: sandre-a <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:06:18 by sandre-a          #+#    #+#             */
-/*   Updated: 2024/09/05 14:02:23 by sandre-a         ###   ########.fr       */
+/*   Updated: 2024/09/05 19:47:27 by sandre-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "includes/executor.h"
 
-void	check_dir(t_shell *m)
+int	excecute(t_exec *exec, char *path)
 {
-	char			*path;
+	pid_t	pid;
+
+	char *const argv[] = {
+		"echo",          // argv[0]: The name of the program (conventionally)
+		"-n",            // argv[1]: Argument to the program
+		"hello world\n", // argv[2]: Argument to the program
+		NULL             // Must be terminated by NULL
+	};
+	pid = fork();
+	if (pid == 0)
+		execve(exec->pathname, argv, NULL);
+	return (1);
+}
+
+char	*builtin_exists(t_exec *exec)
+{
 	DIR				*directory;
 	struct dirent	*entry;
-	bool 			exists;
+	char			path[PATH_MAX];
+	char			*pathname;
 
-	path = "/bin";
-	directory = opendir(path);
-	while (1)
+	getcwd(path, sizeof(path));
+	pathname = ft_strjoin(path, "/builtins");
+	directory = opendir(pathname);
+	while (directory)
 	{
 		entry = readdir(directory);
 		if (!entry)
 			break ;
-		if (!ft_strncmp(m->input, entry->d_name, ft_strlen(m->input)))
+		if (!ft_strncmp(exec->argv[0], entry->d_name, ft_strlen(exec->argv[0])))
 		{
-			exists = true;
-			break;
+			closedir(directory);
+			return (pathname);
 		}
 	}
-	if (!exists)
-		printf("%s: command not found\n", m->input);
-	//else
-	//	excecute(m);
+	closedir(directory);
+	free(pathname);
+	return (NULL);
 }
 
-void	excecute(t_shell *m)
+char	*bin_builtin_exists(t_exec *exec)
 {
-	pid_t pid;
-	const char *pathname = "/bin/echo";
+	DIR				*directory;
+	struct dirent	*entry;
+	int				i;
 
-	char *const argv[] = {
-		"echo",        // argv[0]: The name of the program (conventionally)
-		"-n",          // argv[1]: Argument to the program
-		"hello world", // argv[2]: Argument to the program
-		NULL           // Must be terminated by NULL
-	};
+	i = 0;
+	while (exec->env_path[i])
+	{
+		directory = opendir(exec->env_path[i]);
+		while (directory)
+		{
+			entry = readdir(directory);
+			if (!entry)
+				break ;
+			if (!ft_strncmp(exec->argv[0], entry->d_name,
+					ft_strlen(exec->argv[0])))
+			{
+				closedir(directory);
+				return (exec->env_path[i]);
+			}
+		}
+		closedir(directory);
+		i++;
+	}
+	return (NULL);
+}
 
-	pid = fork();
-	if (pid == 0)
-		execve(pathname, argv, NULL);
+int	command_exists(t_exec *exec)
+{
+	char	*temp;
+
+	exec->argv = malloc(sizeof(t_exec));
+	exec->argv[0] = ft_strdup("ec dho");
+	exec->pathname = builtin_exists(exec);
+	if (!exec->pathname)
+		exec->pathname = bin_builtin_exists(exec);
+	if (exec->pathname)
+	{
+		temp = ft_strjoin(exec->pathname, "/");
+		exec->pathname = ft_strjoin(temp, exec->argv[0]);
+		free(temp);
+	}
+	else
+		printf("%s: command not found\n", exec->argv[0]);
+	return (1);
 }
