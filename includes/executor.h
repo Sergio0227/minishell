@@ -18,15 +18,15 @@
 # include <limits.h>
 # include <stdio.h>
 
+
 typedef struct s_exec
 {
 	char	**argv;
 	char	**env_path;
-	char	*builtin_path;
 	char 	*pathname;
 }			t_exec;
 
-int			excecute(t_exec *exec, char *path);
+int			excecute(t_exec *exec);
 int			command_exists(t_exec *exec);
 
 #endif

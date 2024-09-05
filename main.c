@@ -6,7 +6,7 @@
 /*   By: sandre-a <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 18:48:59 by sandre-a          #+#    #+#             */
-/*   Updated: 2024/09/05 19:48:11 by sandre-a         ###   ########.fr       */
+/*   Updated: 2024/09/05 20:52:15 by sandre-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	prompt_loop(t_shell *m)
 	int	status;
 
 	count = 0;
-	while (count < 2)
+	while (count < 3)
 	{
 		m->input = readline(PROMPT);
 		add_history(m->input);

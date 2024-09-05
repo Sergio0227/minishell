@@ -6,13 +6,13 @@
 /*   By: sandre-a <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:06:18 by sandre-a          #+#    #+#             */
-/*   Updated: 2024/09/05 19:47:27 by sandre-a         ###   ########.fr       */
+/*   Updated: 2024/09/05 21:03:45 by sandre-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/executor.h"
 
-int	excecute(t_exec *exec, char *path)
+int	excecute(t_exec *exec)
 {
 	pid_t	pid;
 
@@ -86,8 +86,8 @@ int	command_exists(t_exec *exec)
 {
 	char	*temp;
 
-	exec->argv = malloc(sizeof(t_exec));
-	exec->argv[0] = ft_strdup("ec dho");
+	exec->argv = malloc(sizeof(char *));
+	exec->argv[0] = ft_strdup("echo");
 	exec->pathname = builtin_exists(exec);
 	if (!exec->pathname)
 		exec->pathname = bin_builtin_exists(exec);
@@ -99,5 +99,6 @@ int	command_exists(t_exec *exec)
 	}
 	else
 		printf("%s: command not found\n", exec->argv[0]);
+	excecute(exec);
 	return (1);
 }
