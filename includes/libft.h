@@ -6,7 +6,7 @@
 /*   By: sandre-a <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:31:19 by sandre-a          #+#    #+#             */
-/*   Updated: 2024/09/02 14:50:38 by sandre-a         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:22:27 by sandre-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ t_list				*ft_lstlast(t_list *lst);
 t_list				*ft_lstnew(void *content);
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+void				free_ft_split(char **strings);
 
 #endif

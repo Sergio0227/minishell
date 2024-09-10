@@ -6,7 +6,7 @@
 /*   By: sandre-a <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:23:35 by sandre-a          #+#    #+#             */
-/*   Updated: 2024/09/05 20:57:40 by sandre-a         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:43:15 by sandre-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define LEXER_H
 
 # include "libft.h"
+# include <stdbool.h>
 # include <stdio.h>
-
 
 /*
 **     WORD,        	Represents commands and arguments (grep, cat, echo)

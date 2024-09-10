@@ -6,7 +6,7 @@
 /*   By: sandre-a <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 18:20:24 by sandre-a          #+#    #+#             */
-/*   Updated: 2024/09/05 17:17:25 by sandre-a         ###   ########.fr       */
+/*   Updated: 2024/09/10 19:57:50 by sandre-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_tokens	analyse_token(char *str)
 {
-	char *equal_sign;
+	char	*equal_sign;
 
 	equal_sign = ft_strchr(str, '=');
 	if (equal_sign != NULL)
@@ -69,6 +69,44 @@ void	add_to_token_list(t_lexer **lexer, char *str)
 	}
 }
 
+void	create_token(t_lexer **lexer, char *str, int len)
+{
+	char	*token;
+
+	token = malloc(sizeof(char) * len + 1);
+	ft_strlcpy(token, str, len);
+	add_to_token_list(lexer, token);
+}
+
+int	check_token_in_str(t_lexer **lexer, char *str)
+{
+	int		i;
+	int		x;
+	char	*charset;
+	char	*start;
+
+	i = 1;
+	charset = "<>|";
+	start = str;
+	while (*str)
+	{
+		x = -1;
+		while (charset[++x])
+		{
+			if (*str == charset[x])
+			{
+				create_token(lexer, start, i);
+				i = 1;
+				start = str;
+				continue;
+			}
+		}
+		i++;
+		str++;
+	}
+	return (0);
+}
+
 t_lexer	*init_lexer(char *input)
 {
 	t_lexer *lexer;
@@ -87,7 +125,8 @@ t_lexer	*init_lexer(char *input)
 			length = ft_strlen(start);
 		str = malloc(sizeof(char) * length + 1);
 		ft_strlcpy(str, start, length + 1);
-		add_to_token_list(&lexer, str);
+		if (!check_token_in_str(&lexer, str))
+			add_to_token_list(&lexer, str);
 	}
 	return (lexer);
 }
