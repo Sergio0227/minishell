@@ -6,7 +6,7 @@
 /*   By: sandre-a <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:23:35 by sandre-a          #+#    #+#             */
-/*   Updated: 2024/09/10 17:43:15 by sandre-a         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:04:57 by sandre-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef enum e_token
 	REDIR_OUT,
 	REDIR_APPEND,
 	REDIR_HEREDOC,
-	ENV_VAR,
+	STRING
 }					t_tokens;
 
 typedef struct s_lexer
@@ -48,6 +48,8 @@ typedef struct s_lexer
 }					t_lexer;
 
 t_lexer				*get_last_token(t_lexer *lexer);
+t_lexer				*get_first_token(t_lexer *lexer);
+
 t_lexer				*init_lexer(char *input);
 
 #endif
